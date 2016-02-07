@@ -1,0 +1,59 @@
+mvn 
+archetype:generate 
+-DgroupId=org.paradise.sandbox 
+-DartifactId=HelloWorld 
+-DarchetypeArtifactId=maven-archetype-webapp 
+-DinteractiveMode=false
+
+
+http://blog.terrencemiao.com/technology/helloworld-jsf-maven-tomcat-7-quickly/
+https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-7-on-ubuntu-14-04-via-apt-get
+http://www.krizna.com/ubuntu/install-tomcat-7-ubuntu-14-04/#apt-get
+
+
+
+wget http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.54/bin/apache-tomcat-7.0.54.tar.gz
+krizna@leela:~$ tar -xvf apache-tomcat-7.0.54.tar.gz
+krizna@leela:~$ sudo mv apache-tomcat-7.0.54 /usr/local/
+Step 4 » Choose username and password to manage tomcat and add to the file /usr/local/apache-tomcat-7.0.54/conf/tomcat-users.xml like the below. The below code must be within < tomcat-users > …. < /tomcat-users > tags.
+
+<role rolename="manager-gui"/>
+<role rolename="admin-gui"/>
+<user username="krizna" password="password" roles="manager-gui,admin-gui"/>
+
+Step 5 » Create a new file tomcat754 in /etc/init.d/ and add the below code. This will create service called tomcat754 . Please change CATALINA_HOME value according to your path.
+#!/bin/bash
+export CATALINA_HOME=/usr/local/apache-tomcat-7.0.54
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+start() {
+sh $CATALINA_HOME/bin/startup.sh
+}
+stop() {
+sh $CATALINA_HOME/bin/shutdown.sh
+}
+case $1 in
+  start|stop) $1;;
+  restart) stop; start;;
+  *) echo "Run as $0 <start|stop|restart>"; exit 1;;
+esac
+
+Step 6 » Change the file permission.
+krizna@leela:~$ sudo chmod 755 /etc/init.d/tomcat754
+
+Step 7 » Now start the service .
+krizna@leela:~$ sudo /etc/init.d/tomcat754 start
+and issue the below command to start service automatically while booting.
+krizna@leela:~$ sudo update-rc.d tomcat754 defaults
+
+Step 8 » Now open http://serve-IP:8080 in your browser, you could get the tomcat page like below. you can access admin pages after authentication .
+
+
+
+sudo /etc/init.d/tomcat754 restart
+sudo nano /usr/local/apache-tomcat-7.0.54/conf/tomcat-users.xml
+sudo /etc/init.d/tomcat754 start
+sudo chmod 755 /etc/init.d/tomcat754
+mvn tomcat7:undeploy
+mvn tomcat7:deploy
+
+
