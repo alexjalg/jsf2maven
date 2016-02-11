@@ -2,17 +2,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-    <title>JSF 2.0 Hello World</title>
+	<title>JSF 2.0 Hello World</title>
 </h:head>
 <h:body>
 	<h:form>
-		<h:outputLabel value="Ingrese nombres" />
-		<h:inputText value="#{personaBean.nombre}" />
-		<h:commandButton value="saludar" actionListener="#{personaBean.saludar()}" />
-		<h:outputLabel value="#{personaBean.mensaje}" />
+		<!-- 		<h:outputLabel value="Ingrese nombres" /> -->
+		<!-- 		<h:inputText value="#{personaBean.nombre}" /> -->
+		<!-- 		<h:commandButton value="saludar" actionListener="#{personaBean.saludar()}" /> -->
+		<!-- 		<h:outputLabel value="#{personaBean.mensaje}" /> -->
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nombres"></h:outputLabel>
+			<h:inputText value="#{personaBean.persona.nombre}"></h:inputText>
+			<h:outputLabel value="Apellidos"></h:outputLabel>
+			<h:inputText value="#{personaBean.persona.apellido}"></h:inputText>
+			<h:outputLabel value="Sexo"></h:outputLabel>
+			<h:selectOneMenu value="#{personaBean.persona.sexo}">
+				<f:selectItem itemValue="M" itemLabel="Masculino"></f:selectItem>
+				<f:selectItem itemValue="F" itemLabel="Femenino"></f:selectItem>
+			</h:selectOneMenu>
+			<h:commandButton value="Agregar"
+				actionListener="#{personaBean.agregarPersona()}" />
+
+		</h:panelGrid>
+		<h:dataTable value="#{personaBean.lstpersona}" var="per" rendered="#{personaBean.lstpersona.isEmpty() eq false}" >
+			<h:column>
+				<f:facet name="header">
+					<h:outputLabel>Nombres</h:outputLabel>
+				</f:facet>
+				<h:outputLabel value="#{per.nombre}"></h:outputLabel>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputLabel>Apellidos</h:outputLabel>
+				</f:facet>
+				<h:outputLabel value="#{per.apellido}"></h:outputLabel>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputLabel>Sexo</h:outputLabel>
+				</f:facet>
+				<h:outputLabel value="#{per.sexo}"></h:outputLabel>
+			</h:column>
+			<h:column>
+				<h:commandLink value="Eliminar" actionListener="#{personaBean.eliminarPersona(per)}" />
+			</h:column>
+		</h:dataTable>
 	</h:form>
 </h:body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
